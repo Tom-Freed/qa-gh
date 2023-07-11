@@ -11,8 +11,6 @@ jobs:
         sudo apt install -y util-linux
     - name: Run Cal
       run: cal
-    - name: Change dir
-      run: cd qa-gh
     - name: List directory contents
       run: ls -la
     - name: Run script.sh
