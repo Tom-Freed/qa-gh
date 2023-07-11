@@ -1,0 +1,32 @@
+# yaml use spaces not tabs
+
+# Lists maps and atom
+
+# List
+- 'list1'
+- 'list2'
+
+# Maps key value data
+name: 'Tom'
+
+# Hierarchy of list and maps
+name:
+  - 'Tom'
+other:
+  - 'other1'
+
+# List of maps
+- name: 'Tom'
+  age: '27'
+- name: 'Bob'
+  age: '30'
+
+# Multiline use pipe |
+
+- multi: |
+ This
+ is
+ multiline
+
+# --- start of yaml file
+# ... end of yaml file (not really needed/used)
