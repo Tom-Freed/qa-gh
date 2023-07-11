@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '0/5 * * * *'
+    - cron: '0/2 * * * *'
 jobs:
   my_job:
     name: deploy to staging
