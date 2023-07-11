@@ -13,3 +13,5 @@ jobs:
       run: cal
     - name: List directory contents
       run: ls -la
+    - name: Run script.sh
+      run: bash ./script.sh
