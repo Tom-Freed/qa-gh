@@ -1,5 +1,14 @@
-books = {"Margaret Atwood":"The Handmaiden's Tale", "J.R.R. Tolkien":["The Hobbit", "The Lord of the Rings"], "Roald Dahl":"Charlie and the Chocolate Factory"}
-author_input = input("Enter author: ")
-author_list = books[author_input]
-books_join = (", ".join(sorted(author_list)))
-print(books_join)
+input_mark = int(input("Enter mark: "))
+if input_mark > 85:
+    print("Distinction")
+elif input_mark >= 65 and input_mark <= 85:
+    print("Pass")
+else:
+    print("Fail")
+
+if input_mark > 85:
+    print("Distinction")
+if input_mark >= 65 and input_mark <= 85:
+    print("Pass")
+if input_mark < 65:
+    print("Fail")
