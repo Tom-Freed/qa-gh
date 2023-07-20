@@ -14,5 +14,3 @@ Bob = Student('Bob', '25')
 print(Bob.age, Bob.stu_class)
 
 Bob.avg_test(60, 90, 27)
-
-
