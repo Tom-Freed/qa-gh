@@ -1,0 +1,16 @@
+h1 {
+    color: rgb(27, 114, 10);
+}
+
+legend {
+    color: rgb(9, 126, 134);
+    font-weight: bold;
+}
+
+label {
+    color: rgb(107, 89, 6);
+}
+
+body {
+    background-color: bisque;
+}
