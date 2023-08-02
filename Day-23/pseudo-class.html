@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+ <html>
+ <head>
+     <style>
+        p::first-line{
+            color: blue;
+        }
+
+        p::first-letter{
+            color: red;
+            font-size: xx-large;
+        }
+
+        p::before{
+            content: "Hi --";
+        }
+
+        p::after{
+            content: "-- bye";
+        }
+
+        p.highlight:hover{
+            background-color: yellow;
+        }
+
+        input:focus{
+            background-color: lightblue;
+        }
+
+     </style>
+ </head>
+ <body>
+
+     <h1>This is a Heading</h1>
+     <p>In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since. </p>
+     <p>'Whenever you feel like criticizing anyone,' he told me, 'just remember that all the people in this world haven't had the advantages that you've had.'</p>
+     <p class="highlight">This is another paragraph.</p>
+     <form>
+         <label>First name:</label>
+         <input type="text" name="fname"><br/>
+         <label>Last name:</label>
+         <input type="text" name="lname"><br/>
+     <input type="submit" value="Submit">
+     </form>
+ </body>
+ </html>

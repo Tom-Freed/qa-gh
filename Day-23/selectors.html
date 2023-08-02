@@ -1,0 +1,61 @@
+<!Doctype html>
+<html>
+<head>
+    <title>L3_CSS_Combinators _Demo</title>
+    <style>
+        em {
+            color: blue;
+        }
+
+        article h1 {
+            color: red;
+        }
+
+        article > p {
+            color: limegreen;
+        }
+
+        p + blockquote {
+            color: purple;
+        }
+
+        h1 ~ p {
+            background-color: grey;
+        }
+
+        p.hover:hover {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+        <h1 id="heading" class="font"> A <em>heading</em></h1>
+        <p class="font">A paragraph <em>with emphasis</em></p>
+    <header>
+        <h1>Header</h1>
+    </header>
+
+        <article>
+            <h1>Article</h1>
+            <p>paragraph 1</p>
+            <p>paragraph 2</p>
+            <footer>Article footer</footer>
+        </article>
+
+        <footer>
+           Body footer
+        </footer>
+
+    <p class="hover">hover me</p>
+
+    <article>
+        <h1>Article</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+        <blockquote>Quote</blockquote>
+        <p>Paragraph 3</p>
+        <footer>Article footer</footer>
+    </article>
+    <footer>Body footer</footer>
+</body>
+</html>
