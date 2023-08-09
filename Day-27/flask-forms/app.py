@@ -11,7 +11,11 @@ class BasicForm(FlaskForm):
     last_name = StringField('Last Name')
     dob = DateField('Date of birth')
     fav_num = IntegerField('Favourite number')
-    fav_food = SelectField('Favourite Food', choices=['Pizza', 'Spaghetti', 'Chilli'])
+    fav_food = SelectField('Favourite Food', choices=[
+        ('pizza', 'Pizza'), 
+        ('spahetti', 'Spaghetti'), 
+        ('chilli', 'Chilli')
+    ])
     submit = SubmitField('Add Name')
 
 @app.route('/', methods=['GET', 'POST'])
