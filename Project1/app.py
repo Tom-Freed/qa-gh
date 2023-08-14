@@ -17,16 +17,17 @@ db = SQLAlchemy(app)
 
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    plant_name = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    order = db.relationship('Order', backref='orderbr')
 
-class Basket(db.Model):
+class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
+    quantity = db.Column(db.Integer, nullable=False)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'),nullable=False)
 
-with app.app_context():
-    db.create_all()
+# May need an association table
 
 @app.route('/')
 def home():
@@ -34,7 +35,8 @@ def home():
 
 @app.route('/products')
 def products():
-    return render_template('products.html')
+    stock = Stock.query.all()
+    return render_template('products.html', stock=stock)
 
 @app.route('/categories')
 def categories():

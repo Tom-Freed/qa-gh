@@ -18,6 +18,11 @@
                         <summary>More info</summary>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.</p>
                     </details>
+                    {% for prod in stock %}
+                        {% if prod.name == 'Plant1' %}
+                            <p>Remaining: {{ prod.stock }}</p>
+                        {% endif %}
+                    {% endfor %}
                     <div class="row align-items-center">
                         <div class="col">
                         Quantity:
