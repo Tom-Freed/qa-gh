@@ -85,6 +85,8 @@ def basket():
     basket = Basket.query.all()
     form = BasketForm()
 
+    order_total = sum(item.total for item in basket)
+
     if request.method == "POST":
         if form.validate_on_submit():
             update_quantity = form.quantity.data
@@ -96,10 +98,12 @@ def basket():
                     update_item.total = int(update_quantity) * update_item.stockbr.price
                 db.session.commit()
 
-    return render_template('basket.html', basket=basket, form=form)
+    return render_template('basket.html', basket=basket, form=form, order_total=order_total)
 
-@app.route('/checkout')
+@app.route('/checkout', methods=["GET", "POST"])
 def checkout():
+    basket = Basket.query.all()
+
     return render_template('checkout.html')
 
 @app.route('/payment')

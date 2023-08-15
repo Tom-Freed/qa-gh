@@ -26,9 +26,16 @@
                         {{ form.update() }}
                         </form>
                     </td>
-                    <td>{{ "£" }} {{ item.total }}</td>
+                    <td>£{{ item.total }}</td>
                 </tr>
             {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><p>Order total</p></td>
+                    <td>£{{ order_total }}</td>
+                </tr>
         </tbody>
    </table>
    <form method="get" action="{{ url_for('checkout') }}">
