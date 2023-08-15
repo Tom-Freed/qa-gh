@@ -8,56 +8,31 @@
 <body>
     {% include 'navbar.html' %}
     <h1>Products</h1>
+    {% for plant in stock %}
     <div class="container">
         <div class="row justify-content-around mt-1">
             <div class="col-sm-3 col-md-4 col-lg-4 text-center">
                 <div class="d-flex flex-column align-items-center">
                     <img src="{{url_for('static', filename='plant1.jpg')}}">
-                    <a href="/product1" class="mt-1">Product 1</a>
+                    <a href="/product1" class="mt-1">{{ plant.name }}</a>
                     <details class="mt-1">
                         <summary>More info</summary>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.</p>
+                        <p>{{ plant.summary }}</p>
                     </details>
-                    {% for prod in stock %}
-                        {% if prod.name == 'Plant1' %}
-                            <p>Remaining: {{ prod.stock }}</p>
-                        {% endif %}
-                    {% endfor %}
+                    <p>Remaining: {{ plant.stock }}</p>
                     <div class="row align-items-center">
-                        <div class="col">
-                        Quantity:
-                        </div>
-                        <div class="col">
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option selected value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        </div>
-                    </div>                   
-                    <button type="button" class="btn btn-outline-success btn-sm mt-1">Add to basket</button>
+                        <form method="post" action="">
+                            {{ form.hidden_tag() }}
+                            <input type="hidden" name="stock_id" value="{{ plant.id }}">
+                            {{ form.quantity.label }} {{ form.quantity }}
+                            <br>
+                            {{ form.submit() }}
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-3 col-md-4 col-lg-4 text-center">
-                <h5 class="prod-name">Product 2</h5>
-            </div>
-            <div class="col-sm-3 col-md-4 col-lg-4 text-center">
-                <h5 class="prod-name">Product 3</h5>
-            </div>
-        </div>
-        <div class="row justify-content-around">
-            <div class="col-sm-3 col-md-4 col-lg-4 text-center">
-                <h5 class="prod-name">Product 4</h5>
-            </div>
-            <div class="col-sm-3 col-md-4 col-lg-4 text-center">
-                <h5 class="prod-name">Product 5</h5>
-            </div>
-            <div class="col-sm-3 col-md-4 col-lg-4 text-center">
-                <h5 class="prod-name">Product 6</h5>
             </div>
         </div>
     </div>
+    {% endfor %}
 </body>
 </html>
