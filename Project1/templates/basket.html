@@ -3,10 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
+    <title>Basket</title>
 </head>
 <body>
     {% include 'navbar.html' %}
-   <h1>Cart</h1> 
+   <h1>Basket</h1> 
+   <table>
+        <thead>
+            <tr><th>Name</th><th>Price</th><th>Current Quantity</th><th>Update Quantity</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+            {% for item in basket %}
+                <tr>
+                    <td>{{ item.stockbr.name }}</td>
+                    <td>{{ "£" }}{{ item.stockbr.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('basket') }}">
+                        {{ form.hidden_tag() }}
+                        <input type="hidden" name="item_id" value="{{ item.id }}"> 
+                        {{ form.quantity }} 
+                        {{ form.update() }}
+                        </form>
+                    </td>
+                    <td>{{ "£" }} {{ item.total }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+   </table>
+   <form method="get" action="{{ url_for('checkout') }}">
+        <button type="submit">Proceed to Checkout</button>
+    </form>
 </body>
 </html>
