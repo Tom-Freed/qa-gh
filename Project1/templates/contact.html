@@ -8,5 +8,41 @@
 <body>
     {% include 'navbar.html' %}
     <h1>Contact Us</h1>
+    <table>
+        <tr>
+            <td>Address</td>
+            <td>Plant Shop</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Address line 1</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Address line 2</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Postcode</td>
+        </tr>
+        <tr>
+            <td>Phone number</td>
+            <td>01234 567890</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>plantshop@plantmail.com</td>
+        </tr>
+    </table>
+    <form method="get" action="">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }} {{ form.name }}
+        <br>
+        {{ form.email.label }} {{ form.email }}
+        <br>
+        {{ form.message.label }} {{ form.message }}
+        <br>
+        {{ form.send }}
+    </form>
 </body>
 </html>

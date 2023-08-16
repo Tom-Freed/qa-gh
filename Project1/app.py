@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import SelectField, SubmitField, IntegerField, StringField, DateField
+from wtforms import SelectField, SubmitField, IntegerField, StringField, EmailField
 from wtforms.validators import DataRequired
 from flask_bcrypt import Bcrypt
 #pymysql
@@ -69,6 +69,12 @@ class PaymentForm(FlaskForm):
     expiry_year = IntegerField("Expiry year", validators=[DataRequired()])
     cvc = IntegerField("CVC", validators=[DataRequired()])
     buy_now = SubmitField("Buy now")
+
+class ContactForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = EmailField("Email", validators=[DataRequired()])
+    message = StringField("Message", validators=[DataRequired()])
+    send = SubmitField("Send")
   
 def initialise_database():
     with app.app_context():
@@ -200,7 +206,6 @@ def payment():
                 )
                 db.session.add(new_payment)
                 db.session.commit()
-
                 payments = Payment.query.all()
                 return render_template('order_placed.html', payments=payments)
 
@@ -213,7 +218,8 @@ def order_placed():
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    form = ContactForm()
+    return render_template('contact.html', form=form)
 
 @app.route('/about')
 def about():
