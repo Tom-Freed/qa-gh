@@ -200,7 +200,7 @@ def payment():
                 )
                 db.session.add(new_payment)
                 db.session.commit()
-                print('yay')
+
                 payments = Payment.query.all()
                 return render_template('order_placed.html', payments=payments)
 
@@ -219,9 +219,9 @@ def contact():
 def about():
     return render_template('about.html')
 
-@app.route('/product1')
+@app.route('/product_page')
 def product1():
-    return render_template('product1.html')
+    return render_template('product_page.html')
 
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
