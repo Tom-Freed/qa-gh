@@ -220,7 +220,7 @@ def about():
     return render_template('about.html')
 
 @app.route('/product_page')
-def product1():
+def product_page():
     return render_template('product_page.html')
 
 if __name__=='__main__':
