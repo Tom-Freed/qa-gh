@@ -1,6 +1,6 @@
 ERD:
 
-![image](https://github.com/Tom-Freed/qa-gh/assets/91968539/f4bc625d-2f00-4aa2-a93c-0062243b45ab)
+![image](https://github.com/Tom-Freed/qa-gh/assets/91968539/e11315dc-3605-418e-b86b-8265117db9e0)
 
 Problems:
 - Couldn't get Jenkins to work
