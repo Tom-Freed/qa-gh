@@ -4,7 +4,7 @@
 
 <h3>Jenkins:</h3>
 
-Was unable get Jenkins to work before the presentation, but managed to resolve the issue after the presentation
+I was unable to get Jenkins to work before the presentation, but managed to resolve the issue after the presentation
 
 <h4>Build steps:</h4>
 
