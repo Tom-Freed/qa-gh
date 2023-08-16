@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import SelectField, SubmitField, IntegerField, StringField
+from wtforms import SelectField, SubmitField, IntegerField, StringField, DateField
 from wtforms.validators import DataRequired
+from flask_bcrypt import Bcrypt
 #pymysql
 import os
 
@@ -19,9 +20,11 @@ app.config['SECRET_KEY'] = 'YOUR_SECRET_KEY'
 
 db = SQLAlchemy(app)
 
+bcrypt = Bcrypt(app)
+
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     summary = db.Column(db.String, nullable=False) 
@@ -32,6 +35,13 @@ class Basket(db.Model):
     stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'),nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     total = db.Column(db.Float, nullable=False)
+
+class Payment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    card_num = db.Column(db.Integer, nullable=False)
+    expiry_date = db.Column(db.Date, nullable=False)
+    cvc = db.Column(db.Integer, nullable=False)
 
 class QuantityForm(FlaskForm):
     stock_id = IntegerField('Stock ID')
@@ -45,10 +55,17 @@ class BasketForm(FlaskForm):
 
 class ShippingForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
-    address1 = StringField("Address Line 1", validators=[DataRequired()])
-    address2 = StringField("Address Line 2", validators=[DataRequired()])
+    address1 = StringField("Address line 1", validators=[DataRequired()])
+    address2 = StringField("Address line 2", validators=[DataRequired()])
     postcode = StringField("Postcode", validators=[DataRequired()])
     payment = SubmitField("Proceed to payment")
+
+class PaymentForm(FlaskForm):
+    name = StringField("Cardholder's name", validators=[DataRequired()])
+    card_num = IntegerField("Card number", validators=[DataRequired()])
+    expiry_date = DateField("Expiry date", format='%m-%y', validators=[DataRequired()])
+    cvc = IntegerField("CVC", validators=[DataRequired()])
+    buy_now = SubmitField("Buy now")
   
 
 @app.route('/')
@@ -116,14 +133,18 @@ def checkout():
     order_total = sum(item.total for item in basket)
 
     if form.validate_on_submit():
-        return render_template('payment.html')
-
+        return render_template('checkout.html', basket=basket, order_total=order_total, form=form)
 
     return render_template('checkout.html', basket=basket, order_total=order_total, form=form)
 
 @app.route('/payment')
 def payment():
-    return render_template('payment.html')
+    form = PaymentForm()
+
+    # if request.method == "POST":
+    #     if form.validate_on_submit():
+
+    return render_template('payment.html', form=form)
 
 @app.route('/contact')
 def contact():
