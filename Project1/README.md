@@ -12,6 +12,7 @@ Still to do:
 - Improve styling
 - Different images for each product
 - More in depth testing
+- More specific validators
 
 Testing:
 
