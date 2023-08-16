@@ -158,6 +158,13 @@ def payment():
 
     return render_template('payment.html', form=form)
 
+@app.route('/order_placed', methods=["GET", "POST"])
+def order_placed():
+    payments = Payment.query.all()
+
+
+    return render_template("order_placed.html", payments=payments)
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
