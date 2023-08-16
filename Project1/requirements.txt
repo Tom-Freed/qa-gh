@@ -1,5 +1,5 @@
 flask
-flask_sqlalchemy
-flask_wtf
-flask_testing
+flask-sqlalchemy
+flask-wtf
+flask-testing
 flask-bycrypt
