@@ -2,4 +2,4 @@ flask
 flask-sqlalchemy
 flask-wtf
 flask-testing
-flask-bycrypt
+Flask-Bcrypt
