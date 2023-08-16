@@ -40,8 +40,9 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     card_num = db.Column(db.Integer, nullable=False)
-    expiry_date = db.Column(db.Date, nullable=False)
-    cvc = db.Column(db.Integer, nullable=False)
+    expiry_month = db.Column(db.Integer, nullable=False)
+    expiry_year = db.Column(db.String, nullable=False)
+    cvc = db.Column(db.String, nullable=False)
 
 class QuantityForm(FlaskForm):
     stock_id = IntegerField('Stock ID')
@@ -63,7 +64,8 @@ class ShippingForm(FlaskForm):
 class PaymentForm(FlaskForm):
     name = StringField("Cardholder's name", validators=[DataRequired()])
     card_num = IntegerField("Card number", validators=[DataRequired()])
-    expiry_date = DateField("Expiry date", format='%m-%y', validators=[DataRequired()])
+    expiry_month = IntegerField("Expiry month", validators=[DataRequired()])
+    expiry_year = IntegerField("Expiry year", validators=[DataRequired()])
     cvc = IntegerField("CVC", validators=[DataRequired()])
     buy_now = SubmitField("Buy now")
   
@@ -137,12 +139,22 @@ def checkout():
 
     return render_template('checkout.html', basket=basket, order_total=order_total, form=form)
 
-@app.route('/payment')
+@app.route('/payment', methods=["GET", "POST"])
 def payment():
     form = PaymentForm()
 
-    # if request.method == "POST":
-    #     if form.validate_on_submit():
+    if request.method == "POST":
+        if form.validate_on_submit():
+            with app.app_context():
+                new_payment = Payment(
+                    name = form.name.data,
+                    card_num = bcrypt.generate_password_hash(str(form.card_num.data)),
+                    expiry_month = form.expiry_month.data,
+                    expiry_year = form.expiry_year.data,
+                    cvc =  bcrypt.generate_password_hash(str(form.cvc.data))
+                )
+                db.session.add(new_payment)
+                db.session.commit()
 
     return render_template('payment.html', form=form)
 

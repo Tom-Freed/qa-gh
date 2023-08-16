@@ -29,7 +29,7 @@
             </tr>
         </tbody>
    </table>
-   <form method="get" action="url_for('payment')">
+   <form method="get" action="{{ url_for('payment') }}">
     {{ form.hidden_tag() }}
     {{ form.name.label }} {{ form.name }}
     <br> 
