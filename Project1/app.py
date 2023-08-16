@@ -10,13 +10,14 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.sqlite"
+#app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.sqlite"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URI")
+#(In terminal) export DATABASE_URI=mysql+pymysql://root:pass@localhost/project1
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'YOUR_SECRET_KEY'
 
-#"mysql+pymysql://root:pass@host/plant_stock"
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URI")
-#(In terminal) export DATABASE_URI=mysql+pymysql://username:password@host/database_name
+#"mysql+pymysql://root:pass@host/project1"
+
 
 db = SQLAlchemy(app)
 
@@ -24,10 +25,10 @@ bcrypt = Bcrypt(app)
 
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(1000), nullable=False)
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    summary = db.Column(db.String, nullable=False) 
+    summary = db.Column(db.String(1000), nullable=False) 
     basket = db.relationship('Basket', backref='stockbr')
 
 class Basket(db.Model):
@@ -38,11 +39,11 @@ class Basket(db.Model):
 
 class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    card_num = db.Column(db.Integer, nullable=False)
-    expiry_month = db.Column(db.Integer, nullable=False)
-    expiry_year = db.Column(db.String, nullable=False)
-    cvc = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(1000), nullable=False)
+    card_num = db.Column(db.String(1000), nullable=False)
+    expiry_month = db.Column(db.String(1000), nullable=False)
+    expiry_year = db.Column(db.String(1000), nullable=False)
+    cvc = db.Column(db.String(1000), nullable=False)
 
 class QuantityForm(FlaskForm):
     stock_id = IntegerField('Stock ID')
@@ -69,6 +70,50 @@ class PaymentForm(FlaskForm):
     cvc = IntegerField("CVC", validators=[DataRequired()])
     buy_now = SubmitField("Buy now")
   
+def initialise_database():
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+        plant1 = Stock(
+            name='Plant1', 
+            price=10.00, 
+            quantity=10,
+            summary = 'Plant 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.'
+        )
+        plant2 = Stock(
+            name='Plant2',
+            price=11.25, 
+            quantity=10,
+            summary = 'Plant 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.'
+        )
+        plant3 = Stock(
+            name='Plant3', 
+            price=12.50, 
+            quantity=10,
+            summary = 'Plant 3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.'
+        )
+        plant4 = Stock(
+            name='Plant4', 
+            price=13.75, 
+            quantity=10,
+            summary = 'Plant 4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.'
+        )
+        plant5 = Stock(
+            name='Plant5', 
+            price=14.00, 
+            quantity=10,
+            summary = 'Plant 5 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.'
+        )
+        plant6 = Stock(
+            name='Plant6',
+            price=14.25,
+            quantity=10,
+            summary = 'Plant 6 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac varius nisi. Aliquam vitae diam tincidunt, porttitor erat lobortis, tincidunt felis. Aenean ultricies ligula nec neque interdum congue. Maecenas quis laoreet ligula. Mauris ornare laoreet erat eget porta. Donec gravida dui sit amet risus semper, vel pellentesque libero rhoncus. Fusce.'
+        )
+        db.session.add_all([plant1, plant2, plant3, plant4, plant5, plant6])
+        db.session.commit()
+
+initialise_database()
 
 @app.route('/')
 def home():
@@ -155,14 +200,15 @@ def payment():
                 )
                 db.session.add(new_payment)
                 db.session.commit()
+                print('yay')
+                payments = Payment.query.all()
+                return render_template('order_placed.html', payments=payments)
 
     return render_template('payment.html', form=form)
 
 @app.route('/order_placed', methods=["GET", "POST"])
 def order_placed():
     payments = Payment.query.all()
-
-
     return render_template("order_placed.html", payments=payments)
 
 @app.route('/contact')
