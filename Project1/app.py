@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import SelectField, SubmitField, IntegerField
+from wtforms import SelectField, SubmitField, IntegerField, StringField
+from wtforms.validators import DataRequired
 #pymysql
 import os
 
@@ -41,7 +42,14 @@ class BasketForm(FlaskForm):
     item_id = IntegerField('Item ID')
     quantity = SelectField("Quantity", choices=[(1),(2),(3),(4),(5)])
     update = SubmitField("Update")
-    
+
+class ShippingForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    address1 = StringField("Address Line 1", validators=[DataRequired()])
+    address2 = StringField("Address Line 2", validators=[DataRequired()])
+    postcode = StringField("Postcode", validators=[DataRequired()])
+    payment = SubmitField("Proceed to payment")
+  
 
 @app.route('/')
 def home():
@@ -103,8 +111,15 @@ def basket():
 @app.route('/checkout', methods=["GET", "POST"])
 def checkout():
     basket = Basket.query.all()
+    form = ShippingForm()
 
-    return render_template('checkout.html')
+    order_total = sum(item.total for item in basket)
+
+    if form.validate_on_submit():
+        return render_template('payment.html')
+
+
+    return render_template('checkout.html', basket=basket, order_total=order_total, form=form)
 
 @app.route('/payment')
 def payment():

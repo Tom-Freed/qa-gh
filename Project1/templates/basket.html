@@ -14,28 +14,28 @@
         </thead>
         <tbody>
             {% for item in basket %}
-                <tr>
-                    <td>{{ item.stockbr.name }}</td>
-                    <td>{{ "£" }}{{ item.stockbr.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>
-                        <form method="post" action="{{ url_for('basket') }}">
-                        {{ form.hidden_tag() }}
-                        <input type="hidden" name="item_id" value="{{ item.id }}"> 
-                        {{ form.quantity }} 
-                        {{ form.update() }}
-                        </form>
-                    </td>
-                    <td>£{{ item.total }}</td>
-                </tr>
+            <tr>
+                <td>{{ item.stockbr.name }}</td>
+                <td>{{ "£" }}{{ item.stockbr.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('basket') }}">
+                    {{ form.hidden_tag() }}
+                    <input type="hidden" name="item_id" value="{{ item.id }}"> 
+                    {{ form.quantity }} 
+                    {{ form.update() }}
+                    </form>
+                </td>
+                <td>£{{ item.total }}</td>
+            </tr>
             {% endfor %}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><p>Order total</p></td>
-                    <td>£{{ order_total }}</td>
-                </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><p>Order total</p></td>
+                <td>£{{ order_total }}</td>
+            </tr>
         </tbody>
    </table>
    <form method="get" action="{{ url_for('checkout') }}">

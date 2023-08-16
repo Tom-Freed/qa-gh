@@ -10,28 +10,35 @@
     <h1>Checkout</h1>
     <table>
         <thead>
-            <tr><th>Name</th><th>Price</th><th>Current Quantity</th><th>Total</th></tr>
+            <tr><th>Name</th><th>Price</th><th>Quantity</th><th>Total</th></tr>
         </thead>
         <tbody>
             {% for item in basket %}
-                <tr>
-                    <td>{{ item.stockbr.name }}</td>
-                    <td>{{ "£" }}{{ item.stockbr.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>
-                        <form method="post" action="{{ url_for('basket') }}">
-                        {{ form.hidden_tag() }}
-                        <input type="hidden" name="item_id" value="{{ item.id }}"> 
-                        {{ form.quantity }} 
-                        {{ form.update() }}
-                        </form>
-                    </td>
-                    <td>{{ "£" }} {{ item.total }}</td>
-                </tr>
+            <tr>
+                <td>{{ item.stockbr.name }}</td>
+                <td>{{ "£" }}{{ item.stockbr.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ "£" }} {{ item.total }}</td>
+            </tr>
             {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td><p>Order total</p></td>
+                <td>£{{ order_total }}</td>
+            </tr>
         </tbody>
    </table>
-   <form method="get" action="{{ url_for('checkout') }}">
-        <button type="submit">Proceed to Checkout</button>
+   <form method="get" action="">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name }}
+    <br> 
+    {{ form.address1.label }} {{ form.address1 }}
+    <br>  
+    {{ form.address2.label }} {{ form.address2 }}
+    <br>  
+    {{ form.postcode.label }} {{ form.postcode }}
+    <br> 
+    {{ form.payment }}
 </body>
 </html>
