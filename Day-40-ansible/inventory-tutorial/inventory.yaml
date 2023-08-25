@@ -1,0 +1,9 @@
+all:
+  children:
+    test:
+      hosts:
+        35.177.122.83:
+        35.176.90.64:
+      vars:
+        ansible_user: ubuntu
+        ansible_ssh_private_key_file: '~/.ssh/qa-key.pem'

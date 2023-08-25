@@ -1,0 +1,18 @@
+# 'Play' level settings
+  # 'Task' level settings
+    # 'Module' level settings
+
+- hosts: localhost # can also be 'all' or <groupname>
+  tasks:
+  - name: this is task1
+    ansible.builtin.apt:
+      # module arguments
+      name: nginx
+      state: present
+  - name: this is task2
+    ansible.builtin.file:
+      path: /home/ubuntu/ # need rest of path
+  - name: this is task3
+    ansible.builtin.systemd_service:
+      name: nginx
+      state: restarted

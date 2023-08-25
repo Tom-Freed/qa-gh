@@ -1,0 +1,32 @@
+- hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: true
+      register: install_info
+      when: "cache_update_time > 1"
+      
+    - name: Display install_info
+      debug:
+        msg: "{{ install_info }}"
+
+    - name: Copy nginx file over
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+      register: nginx_config
+      when: "nginx_config.diff.after.path == nginx_config.diff.before.path"
+
+    - name: Display nginx_config
+      debug:
+        msg: "{{ nginx_config }}"
+
+    - name: Restart nginx if needed
+      service:
+        name: nginx
+        state: restarted
+      when: nginx_config.changed == true
